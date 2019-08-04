@@ -1,0 +1,40 @@
+* WIP: Rating systems
+
+* algorithm
+Rn - The new rating of the player (After the match)
+Ro - The old rating of the player (Before the match)
+S - The actual score/outcome of the match
+E - The expected score/outcome of the match
+K - The K-factor
+
+Rn = Ro + K * (S - E)
+
+The K-factor essentially represents the “Maximum” number of points that a player can gain during a match (If the players are of equal skill level, they will gain k/2 ELO points).
+
+The n score estimation parameter represents the ELO point differential for a player that is 10x better than another player (meaning that a player with an ELO of 1400 is 10x better than a 1000 ELO player).
+
+This means that, if a player always plays against players of equal ELO level, they would have to win n/(k/2)
+
+
+    K=40 for new players until they play 30 games
+    K=20 for players with > 30 games and never had an ELO > 2400
+    K=10 for players with > 30 games and have had an ELO > 2400
+
+
+
+    If few matches will be played (such as American Football, with ~16 games), then the rankings should be more volatile. Higher K factors [relative to n] would be better, so a K factor from K = (2*n)/20 to K = (2*n)/25 is more appropriate.
+    If many matches will be played (such as Baseball, with ~162 games), then the rankings should be less volatile. Lower K factors [relative to n] would be better, so a K factor from K = (2*n)/30 to K = (2*n)/45 is more appropriate.
+
+
+
+-> we can split football into seasons and only ever need to look at the current batch - all older games can be dismissed
+-> can have a json file for each month and will never need a db bc it never grows too much!
+
+* resources
+https://blog.mackie.io/the-elo-algorithm
+http://pena.lt/y/2013/01/31/understanding-elo-ratings/
+http://pena.lt/y/2013/02/07/applying-elo-ratings-to-football/
+http://www.glicko.net/research/acjpaper.pdf
+* yolo
+https://www.csie.ntu.edu.tw/~cjlin/papers/online_ranking/online_journal.pdf
+https://www.csie.ntu.edu.tw/~cjlin/papers/online_ranking/
