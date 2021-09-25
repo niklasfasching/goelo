@@ -32,7 +32,7 @@ func (t Team) SigmaSq() (sigmaSq float64) {
 
 type BradleyTerry struct {
 	Mu      float64 // 25
-	SigmaSq float64 // mu/3
+	SigmaSq float64 // (mu/3)^2
 	Beta    float64 // sigma/2
 	Gamma   float64 // 1 / nTeams (i.e. always 0.5 here)
 }
