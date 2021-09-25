@@ -32,7 +32,7 @@ func (t Team) SigmaSq() (sigmaSq float64) {
 
 type BradleyTerry struct {
 	Mu      float64 // 25
-	SigmaSq float64 // mu/3
+	SigmaSq float64 // (mu/3)^2
 	Beta    float64 // sigma/2
 	Gamma   float64 // 1 / nTeams (i.e. always 0.5 here)
 }
@@ -52,12 +52,12 @@ func (bt BradleyTerry) Update(teamA, teamB Team, scoreA float64) {
 	piq := 1 / (1 + math.Exp((teamB.Mu()-teamA.Mu())/ciq))
 
 	omegaA := teamA.SigmaSq() / ciq * (scoreA - piq) // variance * difference to expected outcome
-	deltaA := bt.Gamma * (teamA.SigmaSq() / ciq) * (teamA.SigmaSq() / ciq) * piq * (1 - piq)
+	deltaA := bt.Gamma * (teamA.SigmaSq() / (ciq * ciq)) * piq * (1 - piq)
 	log.Println(teamA, teamB, scoreA)
 	updatePlayers(teamA, omegaA, deltaA)
 
 	omegaB := teamB.SigmaSq() / ciq * ((1 - scoreA) - (1 - piq))
-	deltaB := bt.Gamma * (teamB.SigmaSq() / ciq) * (teamB.SigmaSq() / ciq) * (1 - piq) * piq
+	deltaB := bt.Gamma * (teamB.SigmaSq() / (ciq * ciq)) * (1 - piq) * piq
 	updatePlayers(teamB, omegaB, deltaB)
 }
 
