@@ -67,7 +67,7 @@ func updatePlayers(t Team, omega, delta float64) {
 	for _, p := range t {
 		log.Println(p.ID, p.Mu, p.SigmaSq/t.SigmaSq()*omega)
 		p.Mu += p.SigmaSq / t.SigmaSq() * omega
-		p.SigmaSq *= math.Sqrt(math.Max(1-p.SigmaSq/t.SigmaSq()*delta, 0.0001))
+		p.SigmaSq *= math.Max(1-p.SigmaSq/t.SigmaSq()*delta, 0.0001)
 	}
 }
 
